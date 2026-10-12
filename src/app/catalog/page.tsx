@@ -150,10 +150,10 @@ function CatalogContent() {
 
   return (
     <div className="min-h-screen bg-[#fafafa] text-neutral-900">
-      <Navbar />
+      <Navbar alwaysVisible />
 
       {/* Top Banner & Breadcrumb Header */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-4">
         {/* Breadcrumb & Floating Cart Button */}
         <div className="flex items-center justify-between mb-4">
           <nav className="flex items-center gap-2 text-xs text-neutral-500 font-medium">
@@ -165,30 +165,46 @@ function CatalogContent() {
               Category
             </Link>
             <span>&gt;</span>
-            <span className="text-neutral-900 font-semibold uppercase">{selectedCategory}</span>
+            <span className="text-neutral-900 font-semibold uppercase">
+              {selectedCategory.replace("SINGLEMALT", "SINGLE MALT")}
+            </span>
           </nav>
 
-          {/* Floating Cart Button matching mockup */}
+          {/* Floating Cart Button matching landing page luxury palette */}
           <button
             onClick={openCart}
             aria-label="View basket"
-            className="w-11 h-11 rounded-full bg-[#c59e74] hover:bg-[#b58c5a] shadow-lg flex items-center justify-center text-white transition-all cursor-pointer relative"
+            className="w-11 h-11 rounded-full bg-[#0d0d0d] hover:bg-neutral-800 border border-neutral-700/80 ring-1 ring-white/10 shadow-xl flex items-center justify-center text-white transition-all cursor-pointer relative"
           >
             <ShoppingCart className="w-5 h-5" />
             {itemCount > 0 && (
-              <span className="absolute -top-1 -right-1 w-5 h-5 bg-emerald-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow">
+              <span className="absolute -top-1 -right-1 w-5 h-5 bg-amber-500 text-neutral-950 text-[10px] font-bold rounded-full flex items-center justify-center shadow">
                 {itemCount}
               </span>
             )}
           </button>
         </div>
 
-        {/* Golden / Amber Champagne Banner matching screenshot */}
-        <div className="w-full h-32 sm:h-44 rounded-2xl sm:rounded-3xl bg-gradient-to-r from-[#ba9163] via-[#d4b084] to-[#f3dfbc] p-6 sm:p-10 flex items-center shadow-sm relative overflow-hidden mb-6">
-          <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-10 bg-white blur-xl pointer-events-none" />
-          <h1 className="font-sans text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white uppercase tracking-wide drop-shadow-sm">
-            {selectedCategory}
-          </h1>
+        {/* Editorial Luxury Banner matching landing page color palette */}
+        <div className="w-full rounded-2xl sm:rounded-3xl bg-[#0d0d0d] border border-neutral-800 ring-1 ring-white/10 p-6 sm:p-10 flex items-center justify-between shadow-2xl relative overflow-hidden mb-6">
+          <div className="absolute -right-16 -top-16 w-80 h-80 rounded-full bg-amber-500/10 blur-3xl pointer-events-none" />
+          <div className="absolute left-1/3 -bottom-20 w-72 h-72 rounded-full bg-amber-600/5 blur-2xl pointer-events-none" />
+          <div className="relative z-10">
+            <span className="text-[10px] sm:text-xs tracking-[0.24em] text-amber-400 font-medium uppercase block mb-1.5">
+              THE WHISKY SHOP • CURATED COLLECTION
+            </span>
+            <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal text-white uppercase tracking-tight drop-shadow-sm">
+              {selectedCategory === "ALL" ? "ALL SPIRITS & GOODS" : selectedCategory.replace("SINGLEMALT", "SINGLE MALT")}
+            </h1>
+            <p className="text-xs text-neutral-400 mt-2 font-light max-w-lg hidden sm:block">
+              Explore authentic rare bottles, single malts, and signature fine spirits imported directly from world-class distilleries.
+            </p>
+          </div>
+          <div className="hidden md:flex items-center">
+            <span className="text-xs tracking-widest text-neutral-300 uppercase font-mono px-4 py-2 rounded-full border border-neutral-800 bg-neutral-900/80 shadow-inner">
+              {filteredProducts.length} Items
+            </span>
+          </div>
         </div>
 
         {/* Category Selector Tabs */}
@@ -200,28 +216,31 @@ function CatalogContent() {
             }}
             className={`px-4 py-2 rounded-full text-xs font-semibold uppercase whitespace-nowrap transition-all ${
               selectedCategory === "ALL"
-                ? "bg-neutral-900 text-white shadow-sm"
-                : "bg-white border border-neutral-200 text-neutral-600 hover:border-neutral-400"
+                ? "bg-[#0d0d0d] text-white border border-neutral-700 shadow-md ring-1 ring-white/10"
+                : "bg-white border border-neutral-200 text-neutral-600 hover:text-black hover:border-neutral-400 shadow-xs"
             }`}
           >
             ALL DRINKS
           </button>
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => {
-                setSelectedCategory(cat.name);
-                clearFilters();
-              }}
-              className={`px-4 py-2 rounded-full text-xs font-semibold uppercase whitespace-nowrap transition-all ${
-                selectedCategory.toUpperCase() === cat.name.toUpperCase()
-                  ? "bg-neutral-900 text-white shadow-sm"
-                  : "bg-white border border-neutral-200 text-neutral-600 hover:border-neutral-400"
-              }`}
-            >
-              {cat.name}
-            </button>
-          ))}
+          {CATEGORIES.map((cat) => {
+            const isActive = selectedCategory.toUpperCase() === cat.name.toUpperCase();
+            return (
+              <button
+                key={cat.id}
+                onClick={() => {
+                  setSelectedCategory(cat.name);
+                  clearFilters();
+                }}
+                className={`px-4 py-2 rounded-full text-xs font-semibold uppercase whitespace-nowrap transition-all ${
+                  isActive
+                    ? "bg-[#0d0d0d] text-white border border-neutral-700 shadow-md ring-1 ring-white/10"
+                    : "bg-white border border-neutral-200 text-neutral-600 hover:text-black hover:border-neutral-400 shadow-xs"
+                }`}
+              >
+                {cat.name.replace("SINGLEMALT", "SINGLE MALT")}
+              </button>
+            );
+          })}
         </div>
 
         {/* Search & Sort Bar */}
@@ -265,7 +284,10 @@ function CatalogContent() {
             {/* Filter Header */}
             <div className="flex items-center justify-between pb-3 border-b border-neutral-200">
               <h2 className="text-base font-bold text-neutral-800">
-                Filter: <span className="uppercase text-[#b58c5a]">{selectedCategory}</span>
+                Filter:{" "}
+                <span className="uppercase text-neutral-950 font-serif font-bold">
+                  {selectedCategory.replace("SINGLEMALT", "SINGLE MALT")}
+                </span>
               </h2>
               {(selectedBrands.length > 0 || selectedSizes.length > 0 || minPrice > 0 || maxPrice < 200000 || searchQuery) && (
                 <button
@@ -295,7 +317,7 @@ function CatalogContent() {
                       placeholder="Search brands..."
                       value={brandSearch}
                       onChange={(e) => setBrandSearch(e.target.value)}
-                      className="w-full px-2.5 py-1.5 text-xs bg-neutral-50 border border-neutral-200 rounded-lg mb-2 focus:outline-none"
+                      className="w-full px-2.5 py-1.5 text-xs bg-neutral-50 border border-neutral-200 rounded-lg mb-2 focus:outline-none focus:border-neutral-400"
                     />
                   )}
                   <div className="max-h-52 overflow-y-auto space-y-1.5 pr-1 text-xs">
@@ -310,7 +332,7 @@ function CatalogContent() {
                             type="checkbox"
                             checked={selectedBrands.includes(brand)}
                             onChange={() => toggleBrand(brand)}
-                            className="rounded border-neutral-300 text-[#b58c5a] focus:ring-[#b58c5a]"
+                            className="rounded border-neutral-300 text-neutral-900 focus:ring-neutral-900 accent-neutral-900"
                           />
                           <span className="truncate">{brand}</span>
                         </label>
@@ -344,7 +366,7 @@ function CatalogContent() {
                         type="checkbox"
                         checked={selectedSizes.includes(size)}
                         onChange={() => toggleSize(size)}
-                        className="rounded border-neutral-300 text-[#b58c5a] focus:ring-[#b58c5a]"
+                        className="rounded border-neutral-300 text-neutral-900 focus:ring-neutral-900 accent-neutral-900"
                       />
                       <span>{size}</span>
                     </label>
@@ -365,7 +387,7 @@ function CatalogContent() {
 
               {priceOpen && (
                 <div className="mt-4 space-y-4">
-                  {/* Gold slider track matching screenshot */}
+                  {/* Slider track matching landing page palette */}
                   <div className="relative pt-1">
                     <input
                       type="range"
@@ -374,7 +396,7 @@ function CatalogContent() {
                       step={500}
                       value={maxPrice}
                       onChange={(e) => setMaxPrice(Number(e.target.value))}
-                      className="w-full accent-[#b58c5a] cursor-pointer"
+                      className="w-full accent-neutral-900 cursor-pointer"
                     />
                   </div>
 
@@ -384,14 +406,14 @@ function CatalogContent() {
                       type="number"
                       value={minPrice}
                       onChange={(e) => setMinPrice(Number(e.target.value))}
-                      className="w-20 px-2.5 py-1.5 border border-neutral-200 rounded-lg bg-white text-center focus:outline-none"
+                      className="w-20 px-2.5 py-1.5 border border-neutral-200 rounded-lg bg-white text-center focus:outline-none focus:border-neutral-400"
                     />
                     <span className="text-neutral-400">to</span>
                     <input
                       type="number"
                       value={maxPrice}
                       onChange={(e) => setMaxPrice(Number(e.target.value))}
-                      className="w-24 px-2.5 py-1.5 border border-neutral-200 rounded-lg bg-white text-center focus:outline-none"
+                      className="w-24 px-2.5 py-1.5 border border-neutral-200 rounded-lg bg-white text-center focus:outline-none focus:border-neutral-400"
                     />
                   </div>
                 </div>
@@ -422,7 +444,7 @@ function CatalogContent() {
                   return (
                     <div
                       key={product.id}
-                      className="bg-[#fffdfa] hover:bg-white rounded-2xl border border-neutral-200/90 p-3 sm:p-4 flex flex-col justify-between group hover:shadow-xl hover:border-[#dfbe95] transition-all duration-300 relative"
+                      className="bg-[#fffdfa] hover:bg-white rounded-2xl border border-neutral-200/90 p-3 sm:p-4 flex flex-col justify-between group hover:shadow-xl hover:border-neutral-800 transition-all duration-300 relative"
                     >
                       {/* Bottle Photo Container */}
                       <div className="relative w-full h-44 sm:h-52 bg-white rounded-xl p-3 flex items-center justify-center overflow-hidden mb-3">
@@ -467,7 +489,7 @@ function CatalogContent() {
                           className={`p-2 sm:px-3 sm:py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
                             isAdded
                               ? "bg-emerald-600 text-white"
-                              : "bg-[#c59e74] text-white hover:bg-[#b58c5a] shadow-sm active:scale-95"
+                              : "bg-neutral-900 text-white hover:bg-black shadow-sm active:scale-95"
                           }`}
                           title="Add to Basket"
                         >

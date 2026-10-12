@@ -31,8 +31,8 @@ export interface CategoryItem {
 
 // Consumer demand & popularity ordering (Whisky, Gin, Single Malt, Vodka, Tequila, etc.)
 export const POPULAR_CATEGORY_ORDER = [
-  "WHISKY",
   "GIN",
+  "WHISKY",
   "SINGLEMALT",
   "VODKA",
   "TEQUILA",
@@ -41,8 +41,8 @@ export const POPULAR_CATEGORY_ORDER = [
   "CHAMPAGNE",
   "WINE",
   "BEER",
-  "LIQUEUR",
   "BRANDY",
+  "LIQUEUR",
   "JAPANESE WHISKY",
   "BITTERS & APERITIF",
   "NON ALCOHOLIC",

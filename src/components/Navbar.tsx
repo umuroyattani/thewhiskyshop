@@ -4,7 +4,7 @@ import { useCart } from "@/context/CartContext";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
-export default function Navbar() {
+export default function Navbar({ alwaysVisible = false }: { alwaysVisible?: boolean }) {
   const { openCart, itemCount } = useCart();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -17,7 +17,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  if (!scrolled) return null;
+  if (!alwaysVisible && !scrolled) return null;
 
   return (
     <>
