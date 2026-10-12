@@ -16,12 +16,13 @@ export default function Hero() {
         {/* Dark Curved-Border Container with Full-Bleed Image Background */}
         <div className="relative rounded-[24px] sm:rounded-[36px] overflow-hidden border border-neutral-700/80 ring-1 ring-white/20 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] bg-black px-5 sm:px-8 lg:px-12 pt-5 sm:pt-6 pb-7 sm:pb-9 min-h-[500px] sm:min-h-[540px] md:min-h-[580px] lg:min-h-[600px] flex flex-col justify-between">
           
-          {/* Full Cover Background Image of Hand Holding Macallan 12 */}
+          {/* Full Cover Background Image of Hand Holding Macallan 12 (Ultra High-Res) */}
           <Image
-            src="/images/hero/macallan_hand_user.jpg"
+            src="/images/hero/macallan_12_hand_collector_v2.jpg"
             alt="Hand holding Macallan 12 Single Malt Scotch Whisky horizontally"
             fill
             priority
+            unoptimized
             className="object-cover object-center pointer-events-none select-none z-0"
           />
 
