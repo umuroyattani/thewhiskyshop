@@ -8,15 +8,15 @@ export default function SpotlightBanner() {
   return (
     <section id="spotlight" className="bg-[#0e0e0e] text-white py-16 px-5 sm:px-10">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-center">
-        {/* Left: Rounded grayscale crowd photo */}
+        {/* Left: Rounded luxury cocktail photo */}
         <div className="relative h-[300px] sm:h-[360px] w-full rounded-2xl overflow-hidden shadow-2xl flex-shrink-0">
           <Image
-            src="/images/hero/spotlight_party.jpg"
+            src={SPOTLIGHT_FEATURE.image}
             alt="Crafting Moments"
             fill
-            className="object-cover filter grayscale"
+            className="object-cover"
           />
-          <div className="absolute inset-0 bg-black/20" />
+          <div className="absolute inset-0 bg-black/10" />
         </div>
 
         {/* Right: Headline, paragraphs, pill buttons */}

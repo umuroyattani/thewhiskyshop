@@ -12,7 +12,7 @@ export default function ArtOfWhisky() {
     >
       {/* Background Photo */}
       <Image
-        src="/images/hero/art_bar.jpg"
+        src={ART_OF_WHISKY.image}
         alt="Celebrating the Art of Whisky"
         fill
         className="object-cover"

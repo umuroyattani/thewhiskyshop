@@ -48,7 +48,7 @@ export default function FeaturedSelection() {
               alt={FEATURED_SELECTION.title}
               fill
               sizes="(max-width: 768px) 200px, 260px"
-              className="object-contain drop-shadow-2xl"
+              className="object-contain drop-shadow-2xl mix-blend-multiply"
             />
           </div>
         </div>

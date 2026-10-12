@@ -7,13 +7,15 @@ import { ALL_PRODUCTS, Product } from "@/data/catalog";
 
 const CATEGORY_TABS = [
   "ALL",
-  "SINGLEMALT",
   "WHISKY",
-  "JAPANESE WHISKY",
-  "COGNAC",
-  "TEQUILA",
   "GIN",
-  "CIGAR",
+  "SINGLEMALT",
+  "VODKA",
+  "TEQUILA",
+  "RUM",
+  "COGNAC",
+  "CHAMPAGNE",
+  "WINE",
 ];
 
 export default function BestSellers() {
@@ -24,8 +26,29 @@ export default function BestSellers() {
 
   const filteredProducts = useMemo(() => {
     if (activeTab === "ALL") {
-      // Pick top signature items across categories
-      return ALL_PRODUCTS.slice(0, 12);
+      // Pick iconic signature bottles across each popular category
+      const popularCategories = [
+        "WHISKY",
+        "GIN",
+        "SINGLEMALT",
+        "VODKA",
+        "TEQUILA",
+        "RUM",
+        "COGNAC",
+        "CHAMPAGNE",
+        "WINE",
+        "BEER",
+        "LIQUEUR",
+        "JAPANESE WHISKY",
+      ];
+      const picks: Product[] = [];
+      for (const cat of popularCategories) {
+        const item = ALL_PRODUCTS.find(
+          (p) => p.category.toUpperCase() === cat && !picks.some((x) => x.id === p.id)
+        );
+        if (item) picks.push(item);
+      }
+      return picks.length >= 12 ? picks.slice(0, 12) : ALL_PRODUCTS.slice(0, 12);
     }
     return ALL_PRODUCTS.filter(
       (p) => p.category.toUpperCase() === activeTab || p.tag?.toUpperCase() === activeTab
@@ -88,8 +111,8 @@ export default function BestSellers() {
                 key={product.id}
                 className="border border-neutral-200/90 rounded-2xl overflow-hidden flex flex-col bg-white group hover:shadow-xl hover:border-neutral-300 transition-all duration-300 relative"
               >
-                {/* Image Container with crisp background */}
-                <div className="relative w-full h-[240px] bg-gradient-to-b from-neutral-50 to-neutral-100/70 p-4 flex items-center justify-center overflow-hidden">
+                {/* Image Container with crisp studio backdrop */}
+                <div className="relative w-full h-[240px] bg-white p-4 flex items-center justify-center overflow-hidden border-b border-neutral-100">
                   {/* Top Badges */}
                   <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10">
                     <span className="bg-neutral-900 text-white text-[9px] uppercase font-bold px-2.5 py-1 rounded-full tracking-[0.12em] shadow-sm">
@@ -122,7 +145,7 @@ export default function BestSellers() {
                       alt={product.name}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      className="object-contain p-2 group-hover:scale-105 transition-transform duration-300 drop-shadow-md"
+                      className="object-contain p-2 group-hover:scale-105 transition-transform duration-300 drop-shadow-md mix-blend-multiply"
                     />
                   </div>
                 </div>

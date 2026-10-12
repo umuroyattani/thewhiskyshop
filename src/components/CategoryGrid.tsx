@@ -29,20 +29,20 @@ export default function CategoryGrid() {
               href={`/catalog?category=${encodeURIComponent(cat.name)}`}
               className="flex flex-col items-center gap-2.5 group cursor-pointer w-full text-center"
             >
-              {/* Circular image container with crisp border */}
-              <div className="w-[84px] h-[84px] sm:w-[94px] sm:h-[94px] rounded-full bg-[#f6f6f6] border border-neutral-200/90 flex items-center justify-center relative overflow-hidden group-hover:shadow-lg group-hover:border-neutral-400 group-hover:scale-105 transition-all duration-300">
-                <div className="relative w-[60px] h-[60px]">
+              {/* Circular image container with crisp border and clean white studio backdrop */}
+              <div className="w-[90px] h-[90px] sm:w-[102px] sm:h-[102px] rounded-full bg-white border border-neutral-200 shadow-[0_4px_14px_rgba(0,0,0,0.06)] flex items-center justify-center relative overflow-hidden group-hover:shadow-xl group-hover:border-neutral-400 group-hover:scale-105 transition-all duration-300">
+                <div className="relative w-[66px] sm:w-[76px] h-[72px] sm:h-[84px] flex items-center justify-center">
                   <Image
-                    src={cat.image || cat.remoteImage || "/images/bottles/single_malt.jpg"}
+                    src={cat.image || cat.remoteImage || "/images/thewhiskyshop/categories/whisky.png"}
                     alt={cat.name}
                     fill
-                    sizes="94px"
-                    className="object-contain p-1 group-hover:scale-110 transition-transform duration-300"
+                    sizes="102px"
+                    className="object-contain drop-shadow group-hover:scale-110 transition-transform duration-300 mix-blend-multiply"
                   />
                 </div>
               </div>
               <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.14em] text-neutral-900 group-hover:text-black uppercase leading-tight line-clamp-1">
-                {cat.name}
+                {cat.name.replace("SINGLEMALT", "SINGLE MALT")}
               </span>
               <span className="text-[9px] text-neutral-400 font-light -mt-1">
                 {cat.brandsCount > 0 ? `${cat.brandsCount} Brands` : "Curated"}

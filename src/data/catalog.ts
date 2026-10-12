@@ -29,8 +29,61 @@ export interface CategoryItem {
   remoteImage?: string;
 }
 
-// 18 official categories directly from https://thewhiskyshop.co.ke/
-export const CATEGORIES: CategoryItem[] = rawCatalog.categories as CategoryItem[];
+// Consumer demand & popularity ordering (Whisky, Gin, Single Malt, Vodka, Tequila, etc.)
+export const POPULAR_CATEGORY_ORDER = [
+  "WHISKY",
+  "GIN",
+  "SINGLEMALT",
+  "VODKA",
+  "TEQUILA",
+  "RUM",
+  "COGNAC",
+  "CHAMPAGNE",
+  "WINE",
+  "BEER",
+  "LIQUEUR",
+  "BRANDY",
+  "JAPANESE WHISKY",
+  "BITTERS & APERITIF",
+  "NON ALCOHOLIC",
+  "JAPANESE WINE",
+  "CIGAR",
+  "CIGAR KAFIE",
+];
+
+// High-definition, accurately cropped bottle images for category circles
+const CATEGORY_FEATURED_IMAGE: Record<string, string> = {
+  WHISKY: "/images/thewhiskyshop/categories/whisky.png",
+  GIN: "https://thewhiskyshop.co.ke/api/open/images/1_1761648224302_7417.jpeg",
+  SINGLEMALT: "https://thewhiskyshop.co.ke/api/open/images/1_1760964123096_1112.jpg",
+  VODKA: "https://thewhiskyshop.co.ke/api/open/images/1_1761749965154_1329.jpg",
+  TEQUILA: "https://thewhiskyshop.co.ke/api/open/images/1_1761412208191_4214.jpg",
+  RUM: "https://thewhiskyshop.co.ke/api/open/images/1_1761753042629_6451.jpg",
+  COGNAC: "https://thewhiskyshop.co.ke/api/open/images/1_1761491683359_7654.jpeg",
+  CHAMPAGNE: "https://thewhiskyshop.co.ke/api/open/images/1_1761380732491_8370.jpg",
+  WINE: "https://thewhiskyshop.co.ke/api/open/images/1_1761139114190_932.jpg",
+  BEER: "https://thewhiskyshop.co.ke/api/open/images/1_1761204932849_4418.jpg",
+  LIQUEUR: "https://thewhiskyshop.co.ke/api/open/images/1_1763098646818_1640.jpeg",
+  BRANDY: "https://thewhiskyshop.co.ke/api/open/images/1_1761558782245_8217.jpg",
+  "JAPANESE WHISKY": "https://thewhiskyshop.co.ke/api/open/images/1_1762851029324_1689.jpeg",
+  "BITTERS & APERITIF": "https://thewhiskyshop.co.ke/api/open/images/1_1761557980759_6183.jpeg",
+  "NON ALCOHOLIC": "https://thewhiskyshop.co.ke/api/open/images/1_1761648015973_6817.jpeg",
+  "JAPANESE WINE": "https://thewhiskyshop.co.ke/api/open/images/1_1763036113970_4784.jpeg",
+  CIGAR: "https://thewhiskyshop.co.ke/api/open/images/1_1761288024469_788.jpg",
+  "CIGAR KAFIE": "https://thewhiskyshop.co.ke/api/open/images/1_1761288490947_4041.jpeg",
+};
+
+// 18 official categories directly from https://thewhiskyshop.co.ke/ ordered by customer preference
+export const CATEGORIES: CategoryItem[] = (rawCatalog.categories as CategoryItem[])
+  .map((cat) => ({
+    ...cat,
+    image: CATEGORY_FEATURED_IMAGE[cat.name] || cat.image || cat.remoteImage || "/images/thewhiskyshop/categories/whisky.png",
+  }))
+  .sort((a, b) => {
+    const idxA = POPULAR_CATEGORY_ORDER.indexOf(a.name.toUpperCase());
+    const idxB = POPULAR_CATEGORY_ORDER.indexOf(b.name.toUpperCase());
+    return (idxA === -1 ? 99 : idxA) - (idxB === -1 ? 99 : idxB);
+  });
 
 // All real drinks and goods fetched from https://thewhiskyshop.co.ke/
 export const ALL_PRODUCTS: Product[] = (rawCatalog.products as any[]).map((p) => ({
@@ -79,7 +132,7 @@ export const SPOTLIGHT_FEATURE = {
     "One sip, an experience that lasts. Discover the finest single malts, aged rums, rare Japanese whiskies, and historic cognac expressions from The Whisky Shop Kenya.",
   subtext:
     "Finely harvested distillation and maturation process techniques combined to yield rare taste profiles that create memories to cherish for any celebration.",
-  image: "/images/hero/spotlight_party.jpg",
+  image: "/images/hero/hero_whisky3.jpg",
 };
 
 export const ART_OF_WHISKY = {
@@ -88,7 +141,7 @@ export const ART_OF_WHISKY = {
   description:
     "Step into our world of finely aged spirits and let us introduce you to rare vintage allocations curated for those mastering the art of savoring.",
   buttonText: "EXPLORE COLLECTION",
-  image: "/images/hero/art_bar.jpg",
+  image: "/images/hero/hero_whisky1.jpg",
 };
 
 export const NEWSLETTER = {
