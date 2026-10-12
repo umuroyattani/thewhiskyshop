@@ -1,11 +1,23 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Footer() {
   return (
     <footer className="bg-black text-white pt-14 pb-8 px-5 sm:px-10 border-t border-white/[0.04]">
       <div className="max-w-7xl mx-auto flex flex-col items-center">
+        {/* Official Store Emblem Logo */}
+        <div className="relative h-12 sm:h-14 w-32 sm:w-40 mb-4 opacity-90 hover:opacity-100 transition-opacity">
+          <Image
+            src="/images/logo-r.webp"
+            alt="The Whisky Shop Kenya"
+            fill
+            sizes="160px"
+            className="object-contain"
+          />
+        </div>
+
         {/* Giant Edge-to-Edge Serif Brand */}
         <div className="w-full text-center overflow-hidden mb-10 select-none">
           <span className="font-serif text-[48px] sm:text-[72px] md:text-[96px] lg:text-[116px] xl:text-[136px] text-white font-black tracking-[0.05em] uppercase block leading-none">

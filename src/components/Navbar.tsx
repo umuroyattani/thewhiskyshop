@@ -1,6 +1,7 @@
 "use client";
 
 import { useCart } from "@/context/CartContext";
+import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
@@ -47,11 +48,18 @@ export default function Navbar({ alwaysVisible = false }: { alwaysVisible?: bool
             <span className="block w-5 h-[1.5px] bg-white/80" />
           </button>
 
-          {/* Center Brand */}
-          <Link href="/" className="text-center">
-            <span className="font-serif text-[14px] sm:text-[15px] tracking-[0.24em] text-white font-bold block uppercase">
-              THE WHISKY SHOP
-            </span>
+          {/* Center Brand: Official Store Logo */}
+          <Link href="/" className="flex items-center justify-center group py-1">
+            <div className="relative h-8 sm:h-9 w-24 sm:w-28 transition-transform group-hover:scale-105">
+              <Image
+                src="/images/logo-r.webp"
+                alt="The Whisky Shop"
+                fill
+                sizes="120px"
+                className="object-contain"
+                priority
+              />
+            </div>
           </Link>
 
           {/* Right Action Icons */}

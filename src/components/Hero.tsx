@@ -63,14 +63,21 @@ export default function Hero() {
               <span className="block w-5 h-[1.5px] bg-white" />
             </button>
 
-            {/* Center: THE WHISKY SHOP centered in Serif Font */}
+            {/* Center: THE WHISKY SHOP Official Store Logo */}
             <Link
               href="/"
-              className="md:absolute md:left-1/2 md:-translate-x-1/2 text-center"
+              className="md:absolute md:left-1/2 md:-translate-x-1/2 flex items-center justify-center group"
             >
-              <span className="font-serif text-[14px] sm:text-[16px] tracking-[0.24em] text-white font-bold block uppercase drop-shadow">
-                THE WHISKY SHOP
-              </span>
+              <div className="relative h-8 sm:h-9 w-24 sm:w-28 transition-transform group-hover:scale-105">
+                <Image
+                  src="/images/logo-r.webp"
+                  alt="The Whisky Shop"
+                  fill
+                  sizes="120px"
+                  className="object-contain drop-shadow"
+                  priority
+                />
+              </div>
             </Link>
 
             {/* Right: Four Thin Outline Icons (Search, User, Heart, Cart) */}
