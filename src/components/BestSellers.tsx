@@ -2,58 +2,21 @@
 
 import { useCart } from "@/context/CartContext";
 import Image from "next/image";
-import { useState, useMemo } from "react";
-import { ALL_PRODUCTS, Product } from "@/data/catalog";
-
-const CATEGORY_TABS = [
-  "ALL",
-  "WHISKY",
-  "GIN",
-  "SINGLEMALT",
-  "VODKA",
-  "TEQUILA",
-  "RUM",
-  "COGNAC",
-  "CHAMPAGNE",
-  "WINE",
-];
+import Link from "next/link";
+import { useState } from "react";
+import { COLLECTOR_BOTTLES, Product } from "@/data/catalog";
+import { ArrowRight, Sparkles, ShieldCheck } from "lucide-react";
 
 export default function BestSellers() {
   const { addToCart } = useCart();
-  const [activeTab, setActiveTab] = useState("ALL");
   const [wishlist, setWishlist] = useState<Record<string, boolean>>({});
   const [added, setAdded] = useState<Record<string, boolean>>({});
+  const [showAllCollector, setShowAllCollector] = useState(false);
 
-  const filteredProducts = useMemo(() => {
-    if (activeTab === "ALL") {
-      // Pick iconic signature bottles across each popular category
-      const popularCategories = [
-        "WHISKY",
-        "GIN",
-        "SINGLEMALT",
-        "VODKA",
-        "TEQUILA",
-        "RUM",
-        "COGNAC",
-        "CHAMPAGNE",
-        "WINE",
-        "BEER",
-        "LIQUEUR",
-        "JAPANESE WHISKY",
-      ];
-      const picks: Product[] = [];
-      for (const cat of popularCategories) {
-        const item = ALL_PRODUCTS.find(
-          (p) => p.category.toUpperCase() === cat && !picks.some((x) => x.id === p.id)
-        );
-        if (item) picks.push(item);
-      }
-      return picks.length >= 12 ? picks.slice(0, 12) : ALL_PRODUCTS.slice(0, 12);
-    }
-    return ALL_PRODUCTS.filter(
-      (p) => p.category.toUpperCase() === activeTab || p.tag?.toUpperCase() === activeTab
-    ).slice(0, 12);
-  }, [activeTab]);
+  // Curate 4 to 6 top expensive collector bottles
+  const displayBottles = showAllCollector
+    ? COLLECTOR_BOTTLES
+    : COLLECTOR_BOTTLES.slice(0, 4);
 
   const toggleWishlist = (id: string) => {
     setWishlist((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -66,63 +29,58 @@ export default function BestSellers() {
   };
 
   return (
-    <section id="best-sellers" className="bg-white text-black py-16 px-5 sm:px-10 border-t border-neutral-100">
+    <section id="best-sellers" className="bg-white text-black py-16 sm:py-20 px-5 sm:px-10 border-t border-neutral-100">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mb-8">
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mb-10">
           <div>
-            <span className="text-[10px] font-bold tracking-[0.2em] text-neutral-400 uppercase block mb-1">
-              THE WHISKY SHOP KENYA
-            </span>
-            <h2 className="font-serif text-[28px] sm:text-[36px] font-normal text-neutral-900 tracking-tight">
-              Our Authentic Bottles & Goods
+            <div className="flex items-center gap-2 mb-2">
+              <span className="flex items-center gap-1.5 text-[10px] font-bold tracking-[0.24em] text-amber-700 uppercase bg-amber-50 border border-amber-200/80 px-2.5 py-1 rounded-full">
+                <Sparkles className="w-3 h-3 text-amber-600" />
+                COLLECTOR&apos;S VAULT • RARE ALLOCATIONS
+              </span>
+            </div>
+            <h2 className="font-serif text-[30px] sm:text-[40px] font-normal text-neutral-900 tracking-tight leading-tight">
+              The Collector&apos;s Reserve
             </h2>
-            <p className="text-[12px] text-neutral-500 mt-1 font-light tracking-wide max-w-lg">
-              Direct from The Whisky Shop Kenya catalog. Guaranteed authentic bottles, verified stocks, and real prices.
+            <p className="text-[13px] text-neutral-500 mt-1.5 font-light tracking-wide max-w-xl">
+              Curated exclusively for connoisseurs. High-age statement single malts, prestige French cognacs, and rare vintage champagnes from world-class distilleries.
             </p>
           </div>
 
-          {/* Filter Pills */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-2 max-w-full no-scrollbar">
-            {CATEGORY_TABS.map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`px-3.5 py-1.5 rounded-full text-[10px] font-semibold tracking-wider uppercase transition-all whitespace-nowrap cursor-pointer ${
-                  activeTab === tab
-                    ? "bg-neutral-900 text-white shadow-sm"
-                    : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200 hover:text-black"
-                }`}
-              >
-                {tab.replace("SINGLEMALT", "SINGLE MALT")}
-              </button>
-            ))}
-          </div>
+          {/* Quick link to full catalog */}
+          <Link
+            href="/catalog"
+            className="group flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-neutral-900 hover:text-amber-800 transition-colors py-2"
+          >
+            <span>View Full Catalog (460+ Bottles)</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
         </div>
 
-        {/* Product Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredProducts.map((product) => {
+        {/* Curated Collector Bottles Grid (Few & Exclusive) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {displayBottles.map((product) => {
             const isWishlisted = !!wishlist[product.id];
             const isAdded = !!added[product.id];
 
             return (
               <div
                 key={product.id}
-                className="border border-neutral-200/90 rounded-2xl overflow-hidden flex flex-col bg-white group hover:shadow-xl hover:border-neutral-300 transition-all duration-300 relative"
+                className="border border-neutral-200/90 rounded-2xl overflow-hidden flex flex-col bg-white group hover:shadow-2xl hover:border-neutral-900 transition-all duration-300 relative"
               >
-                {/* Image Container with crisp studio backdrop */}
-                <div className="relative w-full h-[240px] bg-white p-4 flex items-center justify-center overflow-hidden border-b border-neutral-100">
+                {/* Image Container with studio backdrop */}
+                <div className="relative w-full h-[270px] bg-[#fbfbfb] p-4 flex items-center justify-center overflow-hidden border-b border-neutral-100">
                   {/* Top Badges */}
                   <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10">
-                    <span className="bg-neutral-900 text-white text-[9px] uppercase font-bold px-2.5 py-1 rounded-full tracking-[0.12em] shadow-sm">
-                      {product.category}
+                    <span className="bg-[#0d0d0d] text-amber-300 text-[9px] uppercase font-bold px-2.5 py-1 rounded-full tracking-[0.14em] shadow-sm border border-neutral-800">
+                      ★ RARE PIECE
                     </span>
 
                     <button
                       onClick={() => toggleWishlist(product.id)}
                       aria-label="Wishlist bottle"
-                      className="w-7 h-7 rounded-full bg-white/90 border border-neutral-200 flex items-center justify-center text-neutral-400 hover:text-red-500 hover:scale-110 transition-all cursor-pointer shadow-sm"
+                      className="w-8 h-8 rounded-full bg-white/95 border border-neutral-200 flex items-center justify-center text-neutral-400 hover:text-red-500 hover:scale-110 transition-all cursor-pointer shadow-sm"
                     >
                       <svg
                         width="13"
@@ -153,28 +111,28 @@ export default function BestSellers() {
                 {/* Details */}
                 <div className="p-5 flex flex-col flex-1 justify-between">
                   <div>
-                    <div className="flex items-center justify-between text-[10px] text-neutral-400 uppercase tracking-widest font-semibold mb-1">
+                    <div className="flex items-center justify-between text-[10px] text-neutral-400 uppercase tracking-widest font-semibold mb-1.5">
                       <span>{product.brand || product.category}</span>
-                      <span>{product.size}</span>
+                      <span>{product.size || "700 ml"}</span>
                     </div>
 
-                    <h3 className="font-serif text-[15px] sm:text-[16px] font-normal text-neutral-900 group-hover:text-black line-clamp-2 leading-snug mb-3">
+                    <h3 className="font-serif text-[16px] sm:text-[17px] font-normal text-neutral-900 group-hover:text-black line-clamp-2 leading-snug mb-2">
                       {product.name}
                     </h3>
 
-                    {/* Branch availability if available */}
-                    {product.availableBranches && product.availableBranches.length > 0 && (
-                      <div className="text-[10px] text-emerald-700 bg-emerald-50 border border-emerald-200/60 rounded px-2 py-0.5 inline-block mb-3">
-                        ✓ In Stock: {product.availableBranches.slice(0, 2).join(", ")}
-                      </div>
-                    )}
+                    <div className="flex items-center gap-1.5 text-[10px] text-neutral-600 mb-3">
+                      <ShieldCheck className="w-3.5 h-3.5 text-amber-700 shrink-0" />
+                      <span className="truncate">Certified Distillery Original • Tamper-Sealed</span>
+                    </div>
                   </div>
 
                   {/* Price & Add to Cart button */}
                   <div className="pt-3 border-t border-neutral-100 flex items-center justify-between gap-3">
                     <div>
-                      <span className="text-[10px] text-neutral-400 block -mb-0.5">PRICE</span>
-                      <span className="font-serif text-[17px] font-bold text-neutral-900">
+                      <span className="text-[9px] text-neutral-400 block -mb-0.5 font-medium tracking-wider">
+                        PRICE
+                      </span>
+                      <span className="font-serif text-[18px] font-bold text-neutral-950">
                         KES {product.price.toLocaleString()}
                       </span>
                     </div>
@@ -184,7 +142,7 @@ export default function BestSellers() {
                       className={`px-4 py-2 rounded-full text-[10px] font-bold tracking-wider uppercase transition-all duration-200 cursor-pointer shadow-sm ${
                         isAdded
                           ? "bg-emerald-600 text-white"
-                          : "bg-neutral-900 text-white hover:bg-neutral-800 active:scale-95"
+                          : "bg-[#0d0d0d] text-white hover:bg-neutral-800 active:scale-95 border border-neutral-800"
                       }`}
                     >
                       {isAdded ? "ADDED ✓" : "ADD TO BASKET"}
@@ -194,6 +152,35 @@ export default function BestSellers() {
               </div>
             );
           })}
+        </div>
+
+        {/* Bottom Banner linking to full catalog */}
+        <div className="mt-10 p-5 sm:p-6 rounded-2xl bg-[#0d0d0d] text-white border border-neutral-800 ring-1 ring-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <span className="text-[10px] font-mono tracking-widest text-amber-400 uppercase block mb-1">
+              THE WHISKY SHOP FULL COLLECTION
+            </span>
+            <p className="text-sm font-light text-neutral-300">
+              Explore all 460+ bottles including Gins, Whiskies, Rums, Tequilas, and Fine Wines with live branch filters.
+            </p>
+          </div>
+          <div className="flex items-center gap-3 shrink-0">
+            {COLLECTOR_BOTTLES.length > 4 && (
+              <button
+                onClick={() => setShowAllCollector((prev) => !prev)}
+                className="px-4 py-2 text-xs font-semibold rounded-full border border-neutral-700 bg-neutral-900 hover:bg-neutral-800 text-neutral-300 hover:text-white transition-colors cursor-pointer"
+              >
+                {showAllCollector ? "Show Fewer" : `See All ${COLLECTOR_BOTTLES.length} Collector Pieces`}
+              </button>
+            )}
+            <Link
+              href="/catalog"
+              className="px-5 py-2 text-xs font-semibold rounded-full bg-white text-black hover:bg-neutral-200 transition-colors shadow-md flex items-center gap-1.5"
+            >
+              <span>Explore All Drinks</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
         </div>
       </div>
     </section>

@@ -103,6 +103,16 @@ export const ALL_PRODUCTS: Product[] = (rawCatalog.products as any[]).map((p) =>
   tastingNotes: ["Rich Oak", "Velvety Finish", "Refined Aroma"],
 }));
 
+// Top rare, prestigious collector bottles (high age statements, luxury reserves)
+export const COLLECTOR_BOTTLES: Product[] = [
+  ALL_PRODUCTS.find((p) => p.name.includes("Glenfiddich 30YRS")) || ALL_PRODUCTS[0],
+  ALL_PRODUCTS.find((p) => p.name.includes("Glenfiddich 26Yrs Grande Couronne")) || ALL_PRODUCTS[1],
+  ALL_PRODUCTS.find((p) => p.name.includes("Armand De Brignac Brut")) || ALL_PRODUCTS[2],
+  ALL_PRODUCTS.find((p) => p.name.includes("Martell XO 1000Ml")) || ALL_PRODUCTS[3],
+  ALL_PRODUCTS.find((p) => p.name.includes("Chivas Regal 25Yrs")) || ALL_PRODUCTS[4],
+  ALL_PRODUCTS.find((p) => p.name.includes("Dom Perignon Luminous")) || ALL_PRODUCTS[5],
+].filter(Boolean) as Product[];
+
 // Top signature best-selling drinks from thewhiskyshop.co.ke
 export const BEST_SELLERS: Product[] = [
   ALL_PRODUCTS.find((p) => p.name.includes("Glenmorangie Quinta Ruban")) || ALL_PRODUCTS[0],
