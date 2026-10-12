@@ -1,38 +1,53 @@
-import { TESTIMONIALS } from "@/data/catalog";
+"use client";
+
 import Image from "next/image";
+import { TESTIMONIALS } from "@/data/catalog";
+
+interface TestimonialItem {
+  name: string;
+  role: string;
+  text: string;
+  avatar: string;
+}
 
 export default function Testimonials() {
   return (
-    <section className="py-24 bg-obsidian-950 border-t border-obsidian-800">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-12">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-gold-500 font-semibold mb-2">
-            The Fine Taste Speaks
-          </p>
-          <h2 className="font-serif text-3xl sm:text-4xl text-white">
-            What they&apos;re saying?
-          </h2>
-        </div>
+    <section className="bg-[#f8f8f8] py-16 px-5 sm:px-10">
+      <div className="max-w-4xl mx-auto">
+        {/* Floating White Card */}
+        <div className="bg-white rounded-2xl px-6 sm:px-12 py-10 sm:py-12 shadow-md shadow-black/[0.06]">
+          {/* Header */}
+          <div className="text-center mb-10">
+            <span className="text-[9px] text-gray-400 uppercase tracking-[0.3em] font-semibold block mb-2">
+              The bar they seek
+            </span>
+            <h2 className="font-serif text-[24px] sm:text-[30px] font-normal text-black tracking-tight">
+              What they&apos;re saying
+            </h2>
+          </div>
 
-        {/* Card Box matching mockup container structure */}
-        <div className="bg-obsidian-900/60 border border-obsidian-800 rounded-2xl p-8 sm:p-12 shadow-2xl">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {TESTIMONIALS.map((t, idx) => (
-              <div
-                key={idx}
-                className="flex flex-col items-center text-center p-6 rounded-xl bg-obsidian-950/80 border border-obsidian-800/80 hover:border-gold-500/30 transition-colors"
-              >
-                <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-gold-500/40 mb-4 shadow-lg">
-                  <Image src={t.avatar} alt={t.name} fill className="object-cover" />
+          {/* 3 Reviewer Columns */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            {TESTIMONIALS.map((item: TestimonialItem) => (
+              <div key={item.name} className="flex flex-col items-center">
+                <div className="w-[48px] h-[48px] rounded-full overflow-hidden relative shadow-md mb-4 border-2 border-gray-100">
+                  <Image
+                    src={item.avatar}
+                    alt={item.name}
+                    fill
+                    className="object-cover"
+                  />
                 </div>
 
-                <h4 className="font-serif text-base font-semibold text-white">{t.name}</h4>
-                <p className="text-[10px] uppercase tracking-wider text-gold-500 font-sans mb-4">
-                  {t.role}
-                </p>
+                <h3 className="font-serif text-[14px] font-semibold text-black tracking-tight mb-0.5">
+                  {item.name}
+                </h3>
+                <span className="text-[9px] text-gray-400 mb-4 block tracking-wide uppercase">
+                  {item.role}
+                </span>
 
-                <p className="font-serif text-gray-300 text-xs italic leading-relaxed">
-                  &ldquo;{t.text}&rdquo;
+                <p className="text-[12px] text-gray-600 italic leading-[1.8] font-light">
+                  {item.text}
                 </p>
               </div>
             ))}

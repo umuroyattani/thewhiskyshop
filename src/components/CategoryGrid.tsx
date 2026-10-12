@@ -1,44 +1,67 @@
-import { CATEGORIES } from "@/data/catalog";
+"use client";
+
 import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+import { CATEGORIES } from "@/data/catalog";
 
 export default function CategoryGrid() {
+  const [showAll, setShowAll] = useState(false);
+  const displayCategories = showAll ? CATEGORIES : CATEGORIES.slice(0, 12);
+
   return (
-    <section className="py-20 bg-obsidian-950 border-y border-obsidian-800/80">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-12">
-          <p className="text-[11px] uppercase tracking-[0.3em] text-gold-500 font-semibold mb-2">
-            The Cellar
+    <section id="category" className="bg-white text-black py-16 px-5 sm:px-10">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-10">
+          <h2 className="font-serif text-[28px] sm:text-[36px] text-neutral-900 font-normal tracking-tight mb-2">
+            Shop by Category
+          </h2>
+          <p className="text-[12px] text-neutral-500 font-light tracking-wide max-w-md mx-auto">
+            Browse authentic spirits, rare single malts, champagnes, and fine goods from The Whisky Shop Kenya.
           </p>
-          <h2 className="font-serif text-3xl sm:text-4xl text-white">Shop by Category</h2>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
-          {CATEGORIES.map((cat, idx) => (
-            <div
-              key={idx}
-              className="group cursor-pointer p-6 rounded-xl bg-obsidian-900 border border-obsidian-800 hover:border-gold-500/50 transition-all duration-300 text-center flex flex-col items-center justify-center hover:-translate-y-1 shadow-lg"
+        {/* Category Grid */}
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-x-4 gap-y-8 justify-items-center">
+          {displayCategories.map((cat) => (
+            <Link
+              key={cat.name}
+              href={`/catalog?category=${encodeURIComponent(cat.name)}`}
+              className="flex flex-col items-center gap-2.5 group cursor-pointer w-full text-center"
             >
-              <div className="w-20 h-20 rounded-full bg-obsidian-850 border border-obsidian-700 relative overflow-hidden mb-4 group-hover:scale-105 group-hover:border-gold-500 transition-all shadow-inner flex items-center justify-center">
-                <Image
-                  src={cat.image}
-                  alt={cat.name}
-                  fill
-                  className="object-cover opacity-70 group-hover:opacity-100 transition-opacity"
-                />
-                <div className="absolute inset-0 bg-obsidian-950/40 group-hover:bg-transparent transition-colors" />
-                <span className="font-serif text-sm text-gold-400 font-bold relative z-10 drop-shadow">
-                  0{idx + 1}
-                </span>
+              {/* Circular image container with crisp border */}
+              <div className="w-[84px] h-[84px] sm:w-[94px] sm:h-[94px] rounded-full bg-[#f6f6f6] border border-neutral-200/90 flex items-center justify-center relative overflow-hidden group-hover:shadow-lg group-hover:border-neutral-400 group-hover:scale-105 transition-all duration-300">
+                <div className="relative w-[60px] h-[60px]">
+                  <Image
+                    src={cat.image || cat.remoteImage || "/images/bottles/single_malt.jpg"}
+                    alt={cat.name}
+                    fill
+                    sizes="94px"
+                    className="object-contain p-1 group-hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
               </div>
-              <h3 className="font-serif text-sm font-semibold text-white group-hover:text-gold-400 transition-colors">
+              <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.14em] text-neutral-900 group-hover:text-black uppercase leading-tight line-clamp-1">
                 {cat.name}
-              </h3>
-              <p className="text-[10px] text-gray-500 uppercase tracking-wider mt-1">
-                {cat.count}
-              </p>
-            </div>
+              </span>
+              <span className="text-[9px] text-neutral-400 font-light -mt-1">
+                {cat.brandsCount > 0 ? `${cat.brandsCount} Brands` : "Curated"}
+              </span>
+            </Link>
           ))}
         </div>
+
+        {/* View All Categories Toggle */}
+        {CATEGORIES.length > 12 && (
+          <div className="text-center mt-10">
+            <button
+              onClick={() => setShowAll(!showAll)}
+              className="px-6 py-2 rounded-full border border-neutral-300 text-[11px] font-semibold tracking-widest uppercase text-neutral-800 hover:bg-neutral-900 hover:text-white hover:border-neutral-900 transition-all duration-200"
+            >
+              {showAll ? "Show Less" : `View All ${CATEGORIES.length} Categories`}
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

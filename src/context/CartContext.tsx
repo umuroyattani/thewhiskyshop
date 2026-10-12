@@ -2,9 +2,20 @@
 
 import React, { createContext, useContext, useState } from "react";
 import { Product } from "@/data/catalog";
+import { InventoryItem } from "@/types/multiLocation";
 
-export interface CartItem extends Product {
+export interface CartItem {
+  id: string;
+  sku?: string;
+  name: string;
+  category: string;
+  price: number;
+  image: string;
   quantity: number;
+  stockByBranch?: Record<string, number>;
+  tastingNotes?: string[];
+  abv?: string;
+  volume?: string;
 }
 
 interface CartContextType {
@@ -12,7 +23,7 @@ interface CartContextType {
   isOpen: boolean;
   openCart: () => void;
   closeCart: () => void;
-  addToCart: (product: Product) => void;
+  addToCart: (product: Product | InventoryItem | CartItem) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, delta: number) => void;
   clearCart: () => void;
@@ -26,15 +37,40 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
-  const addToCart = (product: Product) => {
+  const addToCart = (product: Product | InventoryItem | CartItem) => {
+    const id =
+      "sku" in product && product.sku
+        ? product.sku
+        : "id" in product
+        ? product.id
+        : (product as unknown as CartItem).name;
+    const name = product.name;
+    const price = product.price;
+    const image = product.image;
+    const category = product.category;
+    const stockByBranch = "stockByBranch" in product ? product.stockByBranch : undefined;
+    const sku = "sku" in product ? product.sku : undefined;
+
     setCart((prev) => {
-      const existing = prev.find((item) => item.id === product.id);
+      const existing = prev.find((item) => item.id === id);
       if (existing) {
         return prev.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+          item.id === id ? { ...item, quantity: item.quantity + 1 } : item
         );
       }
-      return [...prev, { ...product, quantity: 1 }];
+      return [
+        ...prev,
+        {
+          id,
+          sku,
+          name,
+          category,
+          price,
+          image,
+          quantity: 1,
+          stockByBranch,
+        },
+      ];
     });
     setIsOpen(true);
   };

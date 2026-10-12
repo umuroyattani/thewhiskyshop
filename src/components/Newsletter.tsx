@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Check } from "lucide-react";
+import Image from "next/image";
+import { NEWSLETTER } from "@/data/catalog";
 
 export default function Newsletter() {
   const [email, setEmail] = useState("");
@@ -9,48 +10,57 @@ export default function Newsletter() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
-      setSubscribed(true);
-      setTimeout(() => {
-        setEmail("");
-      }, 2000);
-    }
+    if (!email) return;
+    setSubscribed(true);
   };
 
   return (
-    <section className="py-20 bg-obsidian-900 border-t border-obsidian-800 px-6">
-      <div className="max-w-4xl mx-auto bg-obsidian-950 border border-obsidian-800 rounded-2xl p-10 sm:p-16 text-center relative overflow-hidden shadow-2xl">
-        {/* Glow backdrop */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gold-500/5 rounded-full blur-[100px] pointer-events-none" />
+    <section className="bg-[#0e0e0e] py-12 px-5 sm:px-10">
+      <div className="max-w-4xl mx-auto rounded-2xl overflow-hidden relative min-h-[300px] flex items-center justify-center p-10 sm:p-16 text-center text-white shadow-2xl">
+        {/* Background Photo */}
+        <Image
+          src="/images/hero/newsletter_lounge.jpg"
+          alt="Stay in the Spirit"
+          fill
+          className="object-cover brightness-[0.35]"
+        />
 
-        <div className="relative z-10 max-w-xl mx-auto space-y-4">
-          <h2 className="font-serif text-3xl sm:text-5xl text-white">
-            Stay in the Spirit
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/60" />
+
+        {/* Content */}
+        <div className="relative z-10 max-w-md mx-auto">
+          <h2 className="font-serif text-[28px] sm:text-[38px] font-normal mb-3 text-white tracking-tight">
+            {NEWSLETTER.title}
           </h2>
-          <p className="text-gray-400 text-xs sm:text-sm font-light leading-relaxed">
-            Join our exclusive society of spirit enthusiasts for rare release alerts, tasting invitations, and custom offers.
+
+          <p className="text-[13px] text-gray-300/80 max-w-sm mx-auto mb-8 leading-[1.75] font-light">
+            {NEWSLETTER.description}
           </p>
 
           {!subscribed ? (
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 pt-4">
+            <form
+              onSubmit={handleSubmit}
+              className="max-w-sm mx-auto flex items-center bg-white/10 backdrop-blur-md border border-white/20 rounded-full p-1.5 shadow-2xl focus-within:border-white/50 transition-colors"
+            >
               <input
                 type="email"
                 required
-                placeholder="Enter your email address..."
+                placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 bg-obsidian-900 border border-obsidian-700 rounded-lg px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-gold-500 transition-colors"
+                className="w-full bg-transparent px-4 text-xs text-white placeholder-gray-400/70 focus:outline-none"
               />
               <button
                 type="submit"
-                className="px-6 py-3 bg-white hover:bg-gold-400 text-obsidian-950 font-bold uppercase tracking-widest text-xs rounded-lg transition-colors whitespace-nowrap cursor-pointer"
+                className="px-5 py-2.5 bg-white text-black font-bold uppercase tracking-[0.15em] text-[9px] rounded-full hover:bg-gray-100 active:scale-95 transition-all duration-200 cursor-pointer whitespace-nowrap"
               >
-                SUBSCRIBE NOW
+                {NEWSLETTER.buttonText}
               </button>
             </form>
           ) : (
-            <div className="p-4 bg-emerald-950/40 border border-emerald-500/30 rounded-lg text-emerald-400 text-xs font-semibold flex items-center justify-center gap-2 pt-4">
-              <Check className="w-4 h-4" /> Welcome to the society. Check your inbox shortly.
+            <div className="px-6 py-3 bg-white/15 backdrop-blur-md border border-white/20 rounded-full max-w-sm mx-auto text-xs text-white">
+              You are now connected. Thank you.
             </div>
           )}
         </div>

@@ -2,21 +2,24 @@ import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
+import { BranchProvider } from "@/context/BranchContext";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
+  weight: ["400", "500", "600", "700", "900"],
 });
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "The Whisky Shop Kenya | Premium Single Malts & Fine Spirits",
+  title: "The Whisky Shop | Premium Single Malt Whiskies & Fine Spirits",
   description:
-    "Nairobi's premier destination for rare single malts, aged whiskies, luxury spirits, and bespoke corporate gifting with same-day delivery.",
+    "Discover our rare single malt collections, aged whiskies, and curated spirits.",
 };
 
 export default function RootLayout({
@@ -26,8 +29,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
-      <body className="bg-obsidian-900 text-gray-200 antialiased selection:bg-gold-500 selection:text-black">
-        <CartProvider>{children}</CartProvider>
+      <body className="bg-white text-neutral-900 antialiased font-sans selection:bg-neutral-900 selection:text-white">
+        <BranchProvider>
+          <CartProvider>{children}</CartProvider>
+        </BranchProvider>
       </body>
     </html>
   );

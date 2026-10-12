@@ -1,60 +1,58 @@
-import { SPOTLIGHT_FEATURE } from "@/data/catalog";
+"use client";
+
 import Image from "next/image";
+import Link from "next/link";
+import { SPOTLIGHT_FEATURE } from "@/data/catalog";
 
 export default function SpotlightBanner() {
   return (
-    <section id="craftsmanship" className="py-20 bg-obsidian-900 border-b border-obsidian-800/80">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center bg-obsidian-950 border border-obsidian-800 rounded-2xl p-8 sm:p-12 overflow-hidden relative">
-          {/* Left Visual Image representing luxury tasting / bar atmosphere */}
-          <div className="lg:col-span-6 relative h-72 sm:h-96 w-full rounded-xl overflow-hidden border border-obsidian-800">
-            <Image
-              src={SPOTLIGHT_FEATURE.image}
-              alt="Crafting Moments with Finest Spirits"
-              fill
-              className="object-cover hover:scale-105 transition-transform duration-700"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-obsidian-950 via-transparent to-transparent opacity-60" />
-          </div>
+    <section id="spotlight" className="bg-[#0e0e0e] text-white py-16 px-5 sm:px-10">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-center">
+        {/* Left: Rounded grayscale crowd photo */}
+        <div className="relative h-[300px] sm:h-[360px] w-full rounded-2xl overflow-hidden shadow-2xl flex-shrink-0">
+          <Image
+            src="/images/hero/spotlight_party.jpg"
+            alt="Crafting Moments"
+            fill
+            className="object-cover filter grayscale"
+          />
+          <div className="absolute inset-0 bg-black/20" />
+        </div>
 
-          {/* Right Text Content matching mockup layout */}
-          <div className="lg:col-span-6 space-y-6">
-            <span className="text-[11px] uppercase tracking-[0.3em] text-gold-500 font-semibold block">
-              Heritage & Craftsmanship
-            </span>
+        {/* Right: Headline, paragraphs, pill buttons */}
+        <div className="flex flex-col items-start justify-center">
+          <h2 className="font-serif text-[28px] sm:text-[34px] lg:text-[40px] text-white font-normal mb-5 leading-[1.2] tracking-tight">
+            {SPOTLIGHT_FEATURE.title}
+          </h2>
 
-            <h2 className="font-serif text-3xl sm:text-4xl text-white leading-tight">
-              {SPOTLIGHT_FEATURE.title}
-            </h2>
+          <p className="text-[13px] text-gray-400 leading-[1.75] mb-3 max-w-sm font-light">
+            {SPOTLIGHT_FEATURE.description}
+          </p>
 
-            <p className="text-gray-300 font-serif text-sm italic leading-relaxed">
-              &ldquo;{SPOTLIGHT_FEATURE.description}&rdquo;
-            </p>
+          <p className="text-[13px] text-gray-500 leading-[1.75] mb-9 max-w-sm font-light">
+            {SPOTLIGHT_FEATURE.subtext}
+          </p>
 
-            <p className="text-gray-400 text-xs sm:text-sm leading-relaxed font-light">
-              {SPOTLIGHT_FEATURE.subtext}
-            </p>
-
-            <div className="flex flex-wrap gap-4 pt-4">
-              <a
-                href="#collections"
-                className="px-6 py-3 bg-gold-500 hover:bg-gold-400 text-obsidian-950 font-bold uppercase tracking-widest text-xs rounded transition-colors"
-              >
-                Wine Collection
-              </a>
-              <a
-                href="#collections"
-                className="px-6 py-3 bg-obsidian-800 hover:bg-obsidian-700 text-white font-bold uppercase tracking-widest text-xs rounded border border-obsidian-700 transition-colors"
-              >
-                Cocktails
-              </a>
-              <a
-                href="#collections"
-                className="px-6 py-3 border border-gold-500/40 text-gold-400 hover:bg-gold-500/10 font-bold uppercase tracking-widest text-xs rounded transition-colors"
-              >
-                See All
-              </a>
-            </div>
+          {/* 3 Outline Pill Buttons */}
+          <div className="flex flex-wrap items-center gap-3">
+            <Link
+              href="#category"
+              className="px-5 py-2 rounded-full border border-white/30 text-[10px] font-bold tracking-[0.18em] uppercase text-white hover:border-white hover:bg-white hover:text-black transition-all duration-200 cursor-pointer"
+            >
+              WINE COLLECTION
+            </Link>
+            <Link
+              href="#category"
+              className="px-5 py-2 rounded-full border border-white/30 text-[10px] font-bold tracking-[0.18em] uppercase text-white hover:border-white hover:bg-white hover:text-black transition-all duration-200 cursor-pointer"
+            >
+              COCKTAILS
+            </Link>
+            <Link
+              href="#best-sellers"
+              className="px-5 py-2 rounded-full border border-white/30 text-[10px] font-bold tracking-[0.18em] uppercase text-white hover:border-white hover:bg-white hover:text-black transition-all duration-200 cursor-pointer"
+            >
+              SEE ALL
+            </Link>
           </div>
         </div>
       </div>
